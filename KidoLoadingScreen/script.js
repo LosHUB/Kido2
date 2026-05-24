@@ -276,34 +276,20 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
     if (steamid && steamid.length === 17) {
         playerStatus.innerText = "ID: " + steamid;
         
-        fetch(`https://decapi.me/steam/avatar/${steamid}`)
-            .then(res => {
-                if (!res.ok) throw new Error("DecAPI failed");
-                return res.text();
-            })
-            .then(url => {
-                if (url.startsWith("http")) {
-                    playerAvatar.src = url;
+        const apiKey = "C65AF000FDEA4E626438D1C62DEAC056";
+        
+        fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamid}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.response && data.response.players && data.response.players.length > 0) {
+                    playerAvatar.src = data.response.players[0].avatarfull;
                 } else {
-                    throw new Error("Invalid URL");
+                    throw new Error("Avatar not found in API response");
                 }
             })
-            .catch(() => {
-                fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://steamcommunity.com/profiles/' + steamid + '/?xml=1')}`)
-                    .then(res => res.text())
-                    .then(text => {
-                        const parser = new DOMParser();
-                        const xml = parser.parseFromString(text, "text/xml");
-                        const avatar = xml.querySelector("avatarFull");
-                        if (avatar && avatar.textContent) {
-                            playerAvatar.src = avatar.textContent;
-                        } else {
-                            throw new Error("No avatar in XML");
-                        }
-                    })
-                    .catch(() => {
-                        playerAvatar.src = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
-                    });
+            .catch(error => {
+                console.error("Erreur Steam API:", error);
+                playerAvatar.src = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
             });
     }
 }
