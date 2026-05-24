@@ -275,9 +275,35 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
 
     if (steamid && steamid.length === 17) {
         playerStatus.innerText = "ID: " + steamid;
-        playerAvatar.src = `https://avatars.steamstatic.com/${steamid}_full.jpg`;
-        playerAvatar.onerror = function () {
-            this.src = `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg`;
-        };
+        
+        fetch(`https://decapi.me/steam/avatar/${steamid}`)
+            .then(res => {
+                if (!res.ok) throw new Error("DecAPI failed");
+                return res.text();
+            })
+            .then(url => {
+                if (url.startsWith("http")) {
+                    playerAvatar.src = url;
+                } else {
+                    throw new Error("Invalid URL");
+                }
+            })
+            .catch(() => {
+                fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent('https://steamcommunity.com/profiles/' + steamid + '/?xml=1')}`)
+                    .then(res => res.text())
+                    .then(text => {
+                        const parser = new DOMParser();
+                        const xml = parser.parseFromString(text, "text/xml");
+                        const avatar = xml.querySelector("avatarFull");
+                        if (avatar && avatar.textContent) {
+                            playerAvatar.src = avatar.textContent;
+                        } else {
+                            throw new Error("No avatar in XML");
+                        }
+                    })
+                    .catch(() => {
+                        playerAvatar.src = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
+                    });
+            });
     }
 }
