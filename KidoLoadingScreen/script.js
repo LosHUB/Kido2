@@ -13,8 +13,20 @@ const playerStatus = document.getElementById('player-status');
 
 let filesTotal = 0;
 let filesNeeded = 0;
-let bgIndex = 0;
-let featureIndex = 0;
+
+let bgBag = [];
+let featureBag = [];
+
+function getNextFromBag(bag, maxCount) {
+    if (bag.length === 0) {
+        for (let i = 0; i < maxCount; i++) bag.push(i);
+        for (let i = bag.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [bag[i], bag[j]] = [bag[j], bag[i]];
+        }
+    }
+    return bag.pop();
+}
 
 function createBgElement(url) {
     const div = document.createElement('div');
@@ -70,7 +82,8 @@ let currentParticleType = "";
 function changeBackground() {
     if (Config.backgrounds.length === 0) return;
 
-    const currentBgData = Config.backgrounds[bgIndex];
+    const currentBgIndex = getNextFromBag(bgBag, Config.backgrounds.length);
+    const currentBgData = Config.backgrounds[currentBgIndex];
     if (!currentBgData) return;
 
     const url = typeof currentBgData === 'string' ? currentBgData : currentBgData.url;
@@ -105,8 +118,6 @@ function changeBackground() {
             }
         }, 1500);
     }
-
-    bgIndex = (bgIndex + 1) % Config.backgrounds.length;
 }
 
 setTimeout(() => {
@@ -125,13 +136,13 @@ let firstFeature = true;
 function changeFeature() {
     if (Config.features.length === 0) return;
 
-    const currentFeature = Config.features[featureIndex];
+    const currentFeatureIndex = getNextFromBag(featureBag, Config.features.length);
+    const currentFeature = Config.features[currentFeatureIndex];
 
     if (firstFeature) {
         featureTitle.innerText = currentFeature.title;
         featureDesc.innerText = currentFeature.desc;
         firstFeature = false;
-        featureIndex = (featureIndex + 1) % Config.features.length;
         return;
     }
 
@@ -191,8 +202,6 @@ function changeFeature() {
 
         featureBlock.style.opacity = 0;
         setTimeout(() => { featureBlock.style.opacity = 1; }, 50);
-
-        featureIndex = (featureIndex + 1) % Config.features.length;
     }, 900);
 }
 
