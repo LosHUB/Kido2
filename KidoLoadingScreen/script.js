@@ -272,9 +272,7 @@ function SetFilesNeeded(needed) {
 }
 
 function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, lang, p_name) {
-    if (p_name) {
-        playerName.innerText = p_name;
-    }
+    // Player name update removed to keep "KIDO RP" permanently
 
     if (steamid && steamid.length === 17) {
         playerStatus.innerText = "ID: " + steamid;
