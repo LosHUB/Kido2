@@ -278,6 +278,9 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
 
     if (steamid && steamid.length === 17) {
         playerStatus.innerText = "ID: " + steamid;
-        playerAvatar.src = `https://steamrep.com/avatar.php?id=${steamid}`;
+        playerAvatar.src = `https://avatars.steamstatic.com/${steamid}_full.jpg`;
+        playerAvatar.onerror = function() {
+            this.src = `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg`;
+        };
     }
 }
