@@ -275,10 +275,11 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
 
     if (steamid && steamid.length === 17) {
         playerStatus.innerText = "ID: " + steamid;
-        
+
         const apiKey = "C65AF000FDEA4E626438D1C62DEAC056";
-        
-        fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamid}`)
+        const steamUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${apiKey}&steamids=${steamid}`;
+
+        fetch(`https://corsproxy.io/?${encodeURIComponent(steamUrl)}`)
             .then(res => res.json())
             .then(data => {
                 if (data.response && data.response.players && data.response.players.length > 0) {
@@ -288,7 +289,7 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
                 }
             })
             .catch(error => {
-                console.error("Erreur Steam API:", error);
+                console.error("Erreur Steam API Proxy:", error);
                 playerAvatar.src = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
             });
     }
