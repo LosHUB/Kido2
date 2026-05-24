@@ -3,7 +3,8 @@ const Config = {
         { url: "1363137.jpg", particle: "sakura" },
         { url: "1399041.jpg", particle: "dark" },
         { url: "1362335.jpg", particle: "fire" },
-        { url: "8547041.jpg", particle: "dark" }
+        { url: "8547041.jpg", particle: "dark" },
+        { url: "7219041.jpg", particle: "sakura" }
     ],
     backgroundDelay: 10000,
 
