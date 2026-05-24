@@ -272,12 +272,11 @@ function SetFilesNeeded(needed) {
 }
 
 function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, lang, p_name) {
-    // Player name update removed to keep "KIDO RP" permanently
 
     if (steamid && steamid.length === 17) {
         playerStatus.innerText = "ID: " + steamid;
         playerAvatar.src = `https://avatars.steamstatic.com/${steamid}_full.jpg`;
-        playerAvatar.onerror = function() {
+        playerAvatar.onerror = function () {
             this.src = `https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg`;
         };
     }
