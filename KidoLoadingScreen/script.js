@@ -26,7 +26,7 @@ function createBgElement(url) {
 const particleConfigs = {
     sakura: {
         "particles": {
-            "number": { "value": 70, "density": { "enable": true, "value_area": 800 } },
+            "number": { "value": 35, "density": { "enable": true, "value_area": 800 } },
             "color": { "value": ["#ffb7c5", "#ffffff", "#f2245b"] },
             "shape": { "type": "circle" },
             "opacity": { "value": 0.5, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0.1, "sync": false } },
@@ -35,11 +35,11 @@ const particleConfigs = {
             "move": { "enable": true, "speed": 1.2, "direction": "bottom-right", "random": true, "straight": false, "out_mode": "out", "bounce": false, "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 } }
         },
         "interactivity": { "events": { "onhover": { "enable": false }, "onclick": { "enable": false } } },
-        "retina_detect": true
+        "retina_detect": false
     },
     fire: {
         "particles": {
-            "number": { "value": 100, "density": { "enable": true, "value_area": 800 } },
+            "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
             "color": { "value": ["#ff4500", "#ff8c00", "#ffd700", "#ffffff"] },
             "shape": { "type": "circle" },
             "opacity": { "value": 0.9, "random": true, "anim": { "enable": true, "speed": 2, "opacity_min": 0, "sync": false } },
@@ -49,11 +49,11 @@ const particleConfigs = {
             "glow": { "enable": true, "color": "#ff4500", "blur": 5 }
         },
         "interactivity": { "events": { "onhover": { "enable": false }, "onclick": { "enable": false } } },
-        "retina_detect": true
+        "retina_detect": false
     },
     dark: {
         "particles": {
-            "number": { "value": 40, "density": { "enable": true, "value_area": 800 } },
+            "number": { "value": 20, "density": { "enable": true, "value_area": 800 } },
             "color": { "value": ["#4b0082", "#ffffff"] },
             "shape": { "type": "circle" },
             "opacity": { "value": 0.3, "random": true, "anim": { "enable": true, "speed": 0.5, "opacity_min": 0, "sync": false } },
@@ -197,32 +197,6 @@ function changeFeature() {
 changeFeature();
 setInterval(changeFeature, Config.featureDelay);
 
-
-const visualizer = document.getElementById('visualizer');
-const numBars = 15;
-const bars = [];
-
-if (visualizer) {
-    for (let i = 0; i < numBars; i++) {
-        const bar = document.createElement('div');
-        bar.className = 'visualizer-bar';
-        visualizer.appendChild(bar);
-        bars.push(bar);
-    }
-}
-
-function animateVisualizer() {
-    if (!audio.paused && bars.length > 0) {
-        bars.forEach(bar => {
-            const height = 5 + Math.random() * 30;
-            bar.style.height = `${height * audio.volume * 2}px`;
-        });
-    } else if (bars.length > 0) {
-        bars.forEach(bar => bar.style.height = `5px`);
-    }
-    requestAnimationFrame(animateVisualizer);
-}
-animateVisualizer();
 
 
 if (Config.music && Config.music.length > 0) {
