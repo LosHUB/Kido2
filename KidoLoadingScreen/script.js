@@ -158,7 +158,7 @@ function changeFeature() {
 
     const slash = document.createElement('div');
     slash.className = 'katana-diagonal-slash';
-    
+
     const angle = Math.atan2(blockRect.height, blockRect.width) * (180 / Math.PI);
     slash.style.setProperty('--slash-angle', `${angle}deg`);
 
@@ -211,7 +211,7 @@ if (Config.music && Config.music.length > 0) {
         if (audio.paused) audio.play();
     }, { once: true });
 
-    audio.play().catch(e => console.log("Audio autoplay waiting for interaction"));
+    audio.play().catch(e => {});
 }
 
 volumeControl.addEventListener('input', (e) => {
@@ -272,11 +272,10 @@ function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemo
                     playerAvatar.src = player.avatarfull;
                     playerName.innerText = player.personaname;
                 } else {
-                    throw new Error("Avatar not found in API response");
+                    throw new Error("Avatar pas trouver");
                 }
             })
             .catch(error => {
-                console.error("Erreur Steam API Proxy:", error);
                 playerAvatar.src = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541";
             });
     }
