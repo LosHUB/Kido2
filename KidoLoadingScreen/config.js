@@ -10,7 +10,7 @@ const Config = {
     music: [
         "Suzume_No_Tojimari.mp3"
     ],
-    musicVolume: 0.05,
+    musicVolume: 0.03,
 
 
     features: [
