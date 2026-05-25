@@ -220,7 +220,7 @@ if (Config.music && Config.music.length > 0) {
         if (audio.paused) audio.play();
     }, { once: true });
 
-    audio.play().catch(e => {});
+    audio.play().catch(e => { });
 }
 
 volumeControl.addEventListener('input', (e) => {
@@ -260,11 +260,8 @@ function SetFilesNeeded(needed) {
 
 function GameDetails(servername, serverurl, mapname, maxplayers, steamid, gamemode, volume, lang, p_name) {
     if (volume !== undefined && volume !== null && volume !== "") {
-        const parsedVolume = parseFloat(volume);
-        if (!isNaN(parsedVolume)) {
-            audio.volume = parsedVolume;
-            volumeControl.value = parsedVolume;
-        }
+        audio.volume = Config.musicVolume;
+        volumeControl.value = audio.volume;
     }
 
     if (steamid && steamid.length === 17) {
